@@ -1,0 +1,6 @@
+numpy
+pathlib
+requests
+datetime
+geoip
+tldextract
