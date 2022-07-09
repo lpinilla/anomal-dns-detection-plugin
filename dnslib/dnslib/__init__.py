@@ -274,6 +274,14 @@ To send a DNSSEC request (EDNS OPT record with DO flag & header AD flag):
     ;; OPT PSEUDOSECTION
     ; EDNS: version: 0, flags: do; udp: 4096
 
+Note that when using the library you should always validate the received TXID 
+
+    q = DNSRecord.question("abc.com")
+    a_pkt = q.send(address,port,tcp=args.tcp)
+    a = DNSRecord.parse(a_pkt)
+    if q.header.id != a.header.id:
+        raise DNSError('Response transaction id does not match query transaction id')
+
 The library also includes a simple framework for generating custom DNS
 resolvers in dnslib.server (see module docs). In most cases this just
 requires implementing a custom 'resolve' method which receives a question
@@ -359,6 +367,9 @@ Changelog:
                             Add support for all RR types to NSEC type bitmap
                          Merge pull request #17 from sunds/issue_16
                             Issue 16: uncaught exceptions leak open sockets
+ *   0.9.18  2022-01-09  Validate TXID in client.py (Issue #30 - thanks to @daniel4x)
+ *   0.9.19  2022-01-09  Allow custom log function (logf) in  DNSLogger
+                         (Issue #31 - trhanks to @DmitryFrolovTri)
 
 License:
 --------
@@ -381,7 +392,7 @@ Master Repository/Issues:
 
 from dnslib.dns import *
 
-version = "0.9.16"
+version = "0.9.19"
 
 if __name__ == '__main__':
     import doctest,sys,textwrap
