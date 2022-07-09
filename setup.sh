@@ -1,5 +1,7 @@
 # install dependencies
 apt install -y --no-install-recommends gcc
+# download submodules
+git submodule update --init
 # install flare package
 cd  $( dirname -- "$0"; )/flare; pip3 install --no-cache-dir -r requirements.txt && python3 setup.py install
 #copy library to pyenv
